@@ -1,10 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GateButton from "./components/GateButton";
+import { useRailwaySound } from "./hooks/useRailwaySound";
 
 export default function Home() {
   const [isRaised, setIsRaised] = useState(false);
+  
+  // Use the custom hook to play the sound when the gate is lowered
+  useRailwaySound(!isRaised);
 
   const handleRaiseGate = () => {
     if (!isRaised) {
@@ -23,6 +27,13 @@ export default function Home() {
       <h1 className="text-2xl font-bold">踏切制御アプリ</h1>
       
       <div className="w-[300px] h-[200px] mb-8 relative">
+        {/* Sound indicator */}
+        {!isRaised && (
+          <div className="absolute top-[30px] right-[30px] flex items-center">
+            <span className="text-sm mr-2">カンカンカン</span>
+            <div className="w-4 h-4 bg-red-500 rounded-full animate-pulse"></div>
+          </div>
+        )}
         {/* 道路 */}
         <div className="w-full h-[40px] bg-gray-800 absolute top-[80px]"></div>
         
