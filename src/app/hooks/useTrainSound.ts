@@ -4,15 +4,13 @@ import { useEffect, useRef } from "react";
 
 export const useTrainSound = (isPlaying: boolean) => {
   const audioContextRef = useRef<AudioContext | null>(null);
-  const oscillatorRef = useRef<OscillatorNode | null>(null);
-  const gainNodeRef = useRef<GainNode | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Function to create a single "ガタン" or "ゴトン" sound
   const playTrainSound = (isGatan: boolean) => {
     if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || 
-        (window as any).webkitAudioContext)();
+    audioContextRef.current = new (window.AudioContext || 
+      (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext)();
     }
 
     const context = audioContextRef.current;

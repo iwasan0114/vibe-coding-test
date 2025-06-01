@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import GateButton from "./components/GateButton";
 import TrainAnimation from "./components/TrainAnimation";
 import { useRailwaySound } from "./hooks/useRailwaySound";

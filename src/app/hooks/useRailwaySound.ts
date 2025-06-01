@@ -10,9 +10,20 @@ export const useRailwaySound = (isPlaying: boolean) => {
   const playKanSound = () => {
     if (!audioContextRef.current) {
       audioContextRef.current = new (window.AudioContext || 
-        (window as any).webkitAudioContext)();
+        (window as  Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext)();
     }
-
+    // Type-safe way to handle webkit audio context
+    const AudioContextConstructor = window.AudioContext || 
+      (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    
+    if (!AudioContextConstructor) {
+      console.warn('AudioContext not supported');
+      return;
+    }
+    
+    if (!audioContextRef.current) {
+      audioContextRef.current = new AudioContextConstructor();
+    }
     const context = audioContextRef.current;
     const oscillator = context.createOscillator();
     const gainNode = context.createGain();
