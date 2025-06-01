@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import GateButton from "./components/GateButton";
+import TrainAnimation from "./components/TrainAnimation";
 import { useRailwaySound } from "./hooks/useRailwaySound";
 
 export default function Home() {
-  const [isRaised, setIsRaised] = useState(false);
+  const [isRaised, setIsRaised] = useState(true);
   
   // Use the custom hook to play the sound when the gate is lowered
   useRailwaySound(!isRaised);
@@ -24,9 +25,8 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-8">
-      <h1 className="text-2xl font-bold">踏切制御アプリ</h1>
       
-      <div className="w-[300px] h-[200px] mb-8 relative">
+      <div className="w-[300px] h-[150px] mb-4 relative overflow-hidden">
         {/* Sound indicator */}
         {!isRaised && (
           <div className="absolute top-[30px] right-[30px] flex items-center">
@@ -38,19 +38,23 @@ export default function Home() {
         <div className="w-full h-[40px] bg-gray-800 absolute top-[80px]"></div>
         
         {/* 踏切の支柱 */}
-        <div className="w-[10px] h-[80px] bg-gray-500 absolute top-0 left-[90px]"></div>
+        <div className="w-[10px] h-[80px] bg-gray-500 absolute border top-0 left-[90px]"></div>
         
         {/* 踏切の棒 */}
         <div 
           className={`
-            w-[120px] h-[10px] bg-red-500 absolute top-[70px] left-[90px] 
+            border border-gray-500
+            w-[140px] h-[10px] bg-red-500 absolute top-[70px] left-[95px] 
             origin-[0_5px] z-10 transition-transform duration-[3000ms] ease-in-out
-            before:content-[''] before:absolute before:w-[120px] before:h-[10px] 
+            before:content-[''] before:absolute before:w-[140px] before:h-[10px] 
             before:bg-[repeating-linear-gradient(90deg,#f00,#f00_10px,#fff_10px,#fff_20px)] 
             before:top-0 before:left-0
             ${isRaised ? 'transform rotate-[-90deg]' : 'transform rotate-0'}
           `}
         ></div>
+        
+        {/* Train animation */}
+        <TrainAnimation isGateLowered={!isRaised} />
       </div>
       
       <div className="flex gap-4">
