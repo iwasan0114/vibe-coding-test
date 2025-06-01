@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import GateButton from "./components/GateButton";
 
 export default function Home() {
   const [isRaised, setIsRaised] = useState(false);
@@ -42,18 +43,18 @@ export default function Home() {
       </div>
       
       <div className="flex gap-4">
-        <button
-          className="px-6 py-3 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+        <GateButton
+          text="A: 踏切を上げる"
           onClick={handleRaiseGate}
-        >
-          A: 踏切を上げる
-        </button>
-        <button
-          className="px-6 py-3 text-white bg-red-500 rounded-md hover:bg-red-600"
+          bgColor="bg-blue-500"
+          hoverColor="hover:bg-blue-600"
+        />
+        <GateButton
+          text="B: 踏切を下げる"
           onClick={handleLowerGate}
-        >
-          B: 踏切を下げる
-        </button>
+          bgColor="bg-red-500"
+          hoverColor="hover:bg-red-600"
+        />
       </div>
     </div>
   );
