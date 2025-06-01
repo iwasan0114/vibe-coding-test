@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTrainSound } from "../hooks/useTrainSound";
 
 interface TrainAnimationProps {
   isGateLowered: boolean;
@@ -33,7 +34,7 @@ const TrainAnimation: React.FC<TrainAnimationProps> = ({ isGateLowered }) => {
       const startTime = Date.now();
       const animate = () => {
         const elapsed = Date.now() - startTime;
-        const newPosition = -150 + (elapsed / 4); // Increased speed (smaller divisor = faster)
+        const newPosition = -150 + (elapsed / 5); // Increased speed (smaller divisor = faster)
         
         if (newPosition < 450) { // End position (off-screen to the right)
           setTrainPosition(newPosition);
@@ -45,7 +46,7 @@ const TrainAnimation: React.FC<TrainAnimationProps> = ({ isGateLowered }) => {
       };
       
       animate();
-    }, 5000); // 10 seconds delay
+    }, 3000); // 10 seconds delay
     
     // Cleanup function
     return () => {
@@ -54,6 +55,9 @@ const TrainAnimation: React.FC<TrainAnimationProps> = ({ isGateLowered }) => {
     };
   }, [isGateLowered]);
   
+  // Use the train sound hook when the train is visible
+  useTrainSound(showTrain);
+  
   if (!showTrain) return null;
   
   return (
@@ -61,6 +65,11 @@ const TrainAnimation: React.FC<TrainAnimationProps> = ({ isGateLowered }) => {
       className="absolute top-[20px] z-20"
       style={{ left: `${trainPosition}px` }}
     >
+      {/* Sound indicator */}
+      <div className="absolute top-[-15px] right-[20px] flex items-center">
+        <span className="text-sm mr-2">ガタンゴトン</span>
+        <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+      </div>
       <svg width="180" height="90" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
         {/* Train Engine */}
         <rect x="80" y="10" width="40" height="20" rx="5" fill="#4B5563" />
